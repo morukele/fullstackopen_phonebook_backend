@@ -1,4 +1,3 @@
-const { request, response } = require("express");
 const express = require("express");
 const morgan = require("morgan");
 const cors = require("cors");
@@ -6,6 +5,7 @@ const cors = require("cors");
 const app = express();
 
 app.use(express.json());
+app.use(express.static("build"));
 app.use(cors());
 
 morgan.token("Data", (req, res, param) => {
@@ -39,8 +39,6 @@ let persons = [
   },
 ];
 
-let nPersons = persons.length;
-
 const generateId = () => {
   const maxNumber = 1e11;
   return Math.floor(Math.random() * maxNumber);
@@ -51,7 +49,7 @@ app.get("/", (request, response) => {
 });
 
 app.get("/info", (request, response) => {
-  const message = `<p>Phonebook has info for ${nPersons} people</p>
+  const message = `<p>Phonebook has info for ${persons.length} people</p>
   <p>${new Date()}</p>`;
   response.send(message);
 });
